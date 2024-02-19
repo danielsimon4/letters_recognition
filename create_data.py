@@ -6,7 +6,7 @@ import os
 
 ################## LOAD IMAGE ##################
 
-image = 'image1'
+image = 'image2'
 
 original_image = cv2.imread(f'{image}.jpg')
 
@@ -23,53 +23,37 @@ enhanced_image = cv2.addWeighted(original_image, alpha, np.zeros(original_image.
 
 
 
-################## CROAP IMAGE ##################
-
-# Define the pixel coordinates of the top-left and bottom-right corners
-top_left_corner = (531, 240)
-bottom_right_corner = (1200, 1436)
-
-cropped_image = enhanced_image[top_left_corner[1]:bottom_right_corner[1], top_left_corner[0]:bottom_right_corner[0]]
-
-cv2.imshow('Cropped Image', cropped_image)
-cv2.waitKey(0)
-
-
-
 ################## CREATE CELLS ##################
 
 # Create a folder for output cells
 os.makedirs(image, exist_ok=True)
 
-# Define the number of rows and columns for the grid
-rows = 22
+# Top left corner. 
+# Odd Pages: (531, 241)
+# Even Page: (515, 241)
+top_left_x = 515
+top_left_y = 241
+
+# Values
 cols = 15
-
-# Calculate the height and width of each cell
-height, width, _ = cropped_image.shape
-cell_height = height // rows
-cell_width = width // cols
-
+rows = 22
+cell_size = 32
+margin_x = 13
+margin_y = 23
 
 # Iterate through the rows and columns to crop the image into cells
 for i in range(rows):
 
     for j in range(cols):
 
-        # Calculate the coordinates of the top-left and bottom-right corners of the cell
-        y_start = i * cell_height
-        y_end = (i + 1) * cell_height
-        x_start = j * cell_width
-        x_end = (j + 1) * cell_width
+        # Calculate the coordinates of the top-left and bottom-right corners of the cell with margin
+        x_start = j * (cell_size + margin_x) + top_left_x
+        x_end = x_start + cell_size
+        y_start = i * (cell_size + margin_y) + top_left_y
+        y_end = y_start + cell_size
 
         # Crop the cell from the cropped image
-        cell = cropped_image[y_start:y_end, x_start:x_end]
-
-        # Define the filename for the cell
-        cell_filename = f'{image}/{i}_{j}.jpg'
+        cell = enhanced_image[y_start:y_end, x_start:x_end]
 
         # Save the cell
-        cv2.imwrite(cell_filename, cell)
-
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+        cv2.imwrite(f'{image}/{i}_{j}.jpg', cell)
