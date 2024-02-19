@@ -6,7 +6,7 @@ import os
 
 ################## LOAD IMAGE ##################
 
-image = 'image2'
+image = 'image3'
 
 original_image = cv2.imread(f'{image}.jpg')
 
@@ -31,7 +31,7 @@ os.makedirs(image, exist_ok=True)
 # Top left corner. 
 # Odd Pages: (531, 241)
 # Even Page: (515, 241)
-top_left_x = 515
+top_left_x = 531
 top_left_y = 241
 
 # Values
