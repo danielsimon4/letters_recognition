@@ -3,10 +3,13 @@ import numpy as np
 import os
 
 
+image = '3'
+initials = 'ds'
+
+
 
 ################## LOAD IMAGE ##################
 
-image = 'image3'
 original_image = cv2.imread(f'{image}.jpg')
 
 
@@ -83,7 +86,7 @@ enhanced_image = cv2.addWeighted(cropped_image, alpha, np.zeros(cropped_image.sh
 ################## CREATE CELLS ##################
 
 # Create a folder for output cells
-os.makedirs(image, exist_ok=True)
+os.makedirs('images', exist_ok=True)
 
 # 36 x 36
 cell_size = 36
@@ -112,7 +115,7 @@ for i in range(22):
         cell = enhanced_image[y_start:y_end, x_start:x_end]
 
         # Save the cell
-        cv2.imwrite(f'{image}/{i}_{j}.jpg', cell)
+        cv2.imwrite(f'images/{initials}{image}-{i}_{j}.jpg', cell)
 
 
 cv2.waitKey(0)
