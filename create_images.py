@@ -97,13 +97,15 @@ enhanced_image_height, enhanced_image_width = enhanced_image.shape
 margin_x = (enhanced_image_width - cell_size * 15) / 14
 margin_y = (enhanced_image_height - cell_size * 22) / 21
 
-#print(margin_x)
-#print(margin_y)
 
+# Initialize counters
+i = 0
+j = 0
 
-for i in range(22):
-
-    for j in range(15):
+# Loop through each letter in text.txt
+with open(f'{image}.txt', 'r') as file:
+    
+    for letter in file.read().strip():        
 
         # Calculate the coordinates of the top-left and bottom-right corners of the cell with margin
         x_start = int(j * (cell_size + margin_x))
@@ -115,7 +117,14 @@ for i in range(22):
         cell = enhanced_image[y_start:y_end, x_start:x_end]
 
         # Save the cell
-        cv2.imwrite(f'images/{initials}{image}-{i}_{j}.jpg', cell)
+        cv2.imwrite(f'images/{letter}-{initials}{image}-{i}_{j}.jpg', cell)
+
+        # Increment i every 14 iterations
+        if (j + 1) % 15 == 0:
+            i += 1
+
+        # Increment j every iteration, and restart j to 0 every time it reaches 14
+        j = (j + 1) % 15
 
 
 cv2.waitKey(0)
