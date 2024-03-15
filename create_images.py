@@ -102,10 +102,15 @@ margin_y = (enhanced_image_height - cell_size * 22) / 21
 i = 0
 j = 0
 
-# Loop through each letter in text.txt
+
+# Define your string of letters
+letters = "abcdefghijklmnopqrstuvwxyz"
+
+# Loop through each character in text.txt
 with open(f'{image}.txt', 'r') as file:
     
-    for letter in file.read().strip():        
+    for char in file.read().strip():
+
 
         # Calculate the coordinates of the top-left and bottom-right corners of the cell with margin
         x_start = int(j * (cell_size + margin_x))
@@ -116,8 +121,13 @@ with open(f'{image}.txt', 'r') as file:
         # Crop the cell from the cropped image
         cell = enhanced_image[y_start:y_end, x_start:x_end]
 
-        # Save the cell
-        cv2.imwrite(f'images/{letter}-{initials}{image}-{i}_{j}.jpg', cell)
+        if char in letters:
+
+            # Create a folder for output cells
+            os.makedirs(os.path.join('images', char), exist_ok=True)
+
+            # Save the cell
+            cv2.imwrite(f'images/{char}/{char}-{initials}{image}-{i}_{j}.jpg', cell)
 
         # Increment i every 14 iterations
         if (j + 1) % 15 == 0:
