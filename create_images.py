@@ -75,7 +75,7 @@ cropped_image = gray_image[first_horizontal_line:last_horizontal_line, first_ver
 ################## INCREASE CONTRAST ##################
 
 # Values
-alpha = 1.1
+alpha = 1.3
 beta = 0
 
 # Increase contrast
